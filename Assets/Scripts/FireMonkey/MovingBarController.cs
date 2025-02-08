@@ -64,7 +64,7 @@ public class MovingBarController : MonoBehaviour
 
 
         transform.localScale = nuevaEscala; // Aplicar la nueva escala al objeto
-        transform.position = new Vector3(transform.position.x, 2.2f, transform.position.z); // Establecer la posición Y
+        transform.position = new Vector3(transform.position.x, 0.8f, transform.position.z); // Establecer la posición Y
 
     }
 
