@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MovingBarController : MonoBehaviour
 {
-    public float velocidad = 5f;
+    public float velocidad = 2.5f;
     private Rigidbody2D rb;
     private bool dentroDeScope = false; // Nueva variable para saber si está dentro del trigger
     private int aciertos = 0;
@@ -32,6 +32,14 @@ public class MovingBarController : MonoBehaviour
             errores += 1;
         }
     }
+    public int GetAciertos()
+    {
+        return aciertos;
+    }
+    public int GetErrores()
+    {
+        return errores;
+    }
 
     void CambiarEscalaSegunAciertos()
     {
@@ -47,6 +55,11 @@ public class MovingBarController : MonoBehaviour
         {
             nuevaEscala.y = 0.35f;  // Cambiar a escala Y 2.0x
             velocidad = -3.5f;
+        }
+        else if (aciertos == 3)
+        {
+            nuevaEscala.y = 0.20f;  // Cambiar a escala Y 2.0x
+            velocidad = -4f;
         }
 
 
