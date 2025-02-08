@@ -17,6 +17,13 @@ public class ProgressBarController : MonoBehaviour
         StartCoroutine(DisminuirEscalaCadaIntervalo());
     }
 
+    public void Reset()
+    {
+        disminuirEscala = true;
+        Vector3 resetEscala = transform.localScale;
+        resetEscala.y = 0.1f;
+        transform.localScale = resetEscala;
+    }
     void Update()
     {
         if (transform.localScale.y >= 2.55f)
@@ -40,7 +47,7 @@ public class ProgressBarController : MonoBehaviour
     void IncrementarEscala()
     {
         Vector3 nuevaEscala = transform.localScale;
-        nuevaEscala.y += 0.055f;
+        nuevaEscala.y += 0.1f;
         transform.localScale = nuevaEscala;
     }
 
@@ -49,7 +56,7 @@ public class ProgressBarController : MonoBehaviour
         if (spriteRenderer != null && listaDeSprites.Count > 0)
         {
             indiceSprite = (indiceSprite + 1) % listaDeSprites.Count;
-            spriteRenderer.sprite = listaDeSprites[indiceSprite];  
+            spriteRenderer.sprite = listaDeSprites[indiceSprite];
         }
     }
 
@@ -61,7 +68,7 @@ public class ProgressBarController : MonoBehaviour
                 break;
             yield return new WaitForSeconds(0.1f);
 
-            if (transform.localScale.y > 0)
+            if (transform.localScale.y > 0.55f)
             {
                 Vector3 nuevaEscala = transform.localScale;
                 nuevaEscala.y -= 0.01f;

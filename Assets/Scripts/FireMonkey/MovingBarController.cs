@@ -8,37 +8,78 @@ public class MovingBarController : MonoBehaviour
     public float velocidad = 2.5f;
     private Rigidbody2D rb;
     private bool dentroDeScope = false; // Nueva variable para saber si está dentro del trigger
-    private int aciertos = 0;
-    private int errores = 0;
+    public int aciertos = 0;
+    private bool errores = false;
+    public List<Sprite> listaDeSprites;  // Lista de sprites que cambiarán en bucle
+    private int indiceSprite = 3;  // Para hacer el seguimiento del sprite actual
+    private SpriteRenderer spriteRenderer;
+    public GameObject bg; // Objeto al cual se le cambiará el sprite (así lo asignas en el Inspector)
+
 
     void Start()
     {
+        spriteRenderer = bg.GetComponent<SpriteRenderer>(); // Obtener el SpriteRenderer del otro objeto
         rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
         rb.velocity = new Vector2(rb.velocity.x, velocidad);
-
-        // Verificar si está en Scope y si se presiona la barra espaciadora
+        // Verificar si está dentro del Scope y si se presiona la barra espaciadora
         if (dentroDeScope && Input.GetKeyDown(KeyCode.Space))
         {
             aciertos += 1;
-            Debug.Log("¡Presioné espacio dentro de Scope!");
+            //Debug.Log("¡Presioné espacio dentro de Scope!");
+            CambiarSprite();
             CambiarEscalaSegunAciertos();
         }
-        else
+        else if (!dentroDeScope && Input.GetKeyDown(KeyCode.Space))
         {
-            errores += 1;
+            ProcesoFallo();
+
         }
+    }
+
+    private void ProcesoFallo()
+    {
+        SetAciertos(0);
+        CambiarEscalaSegunAciertos();
+        SetErrores(true);
+    }
+
+    void CambiarSprite()
+    {
+        StartCoroutine(CambiarSpriteEnBucle());
+    }
+
+    IEnumerator CambiarSpriteEnBucle()
+    {
+        for (int i = 0; i < 3; i++)  // Cambiar tres veces
+        {
+            indiceSprite = (indiceSprite + 1) % listaDeSprites.Count;  // Mover al siguiente sprite en la lista de manera cíclica
+            spriteRenderer.sprite = listaDeSprites[indiceSprite];  // Asignar el nuevo sprite
+            yield return new WaitForSeconds(0.1f);  // Esperar 0.3 segundos antes de cambiar de nuevo
+        }
+    }
+
+
+    public void SetAciertos(int num)
+    {
+        aciertos = num;
     }
     public int GetAciertos()
     {
         return aciertos;
     }
-    public int GetErrores()
+
+    public bool GetErrores()
     {
         return errores;
+    }
+
+    public void SetErrores(bool error)
+    {
+        errores = error;
     }
 
     void CambiarEscalaSegunAciertos()
@@ -46,7 +87,12 @@ public class MovingBarController : MonoBehaviour
         Vector3 nuevaEscala = transform.localScale;
 
         // Cambiar la escala según los aciertos
-        if (aciertos == 1)
+        if (aciertos == 0)
+        {
+            nuevaEscala.y = 0.8f;  // Cambiar a escala Y 1.5x
+            velocidad = -2.5f;
+        }
+        else if (aciertos == 1)
         {
             nuevaEscala.y = 0.6f;  // Cambiar a escala Y 1.5x
             velocidad = -3f;
@@ -62,10 +108,8 @@ public class MovingBarController : MonoBehaviour
             velocidad = -4f;
         }
 
-
         transform.localScale = nuevaEscala; // Aplicar la nueva escala al objeto
         transform.position = new Vector3(transform.position.x, 0.8f, transform.position.z); // Establecer la posición Y
-
     }
 
     void OnTriggerEnter2D(Collider2D otro)
