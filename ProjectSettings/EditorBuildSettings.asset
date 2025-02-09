@@ -9,6 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/SceneMalabars.unity
+    guid: 6cd1d6c063bfb8d49a5944d0ed8ef1dd
+  - enabled: 1
     path: Assets/Scenes/SceneMusic.unity
     guid: 7d5c213dcddd95c47b67020ab791cfae
+  - enabled: 1
+    path: Assets/Scenes/Scene_FireMonkey.unity
+    guid: 717d2dd34ee6fe046939a869a93821fa
+  - enabled: 1
+    path: Assets/Scenes/Scene_Glass.unity
+    guid: b548df0ccb8cfbe4990f5fc923fa39fd
+  - enabled: 1
+    path: Assets/Scenes/FinalScene.unity
+    guid: d7d39f9f704629546aaaaa9ebb0a4a9b
   m_configObjects: {}
