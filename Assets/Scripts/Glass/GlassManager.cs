@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GlassManager : MonoBehaviour
 {
     public List<Sprite> listaDeSprites;  // Lista de sprites que cambiarán en bucle
+    public List<Sprite> imagenesFinales;  // Lista de sprites que cambiarán en bucle
+    public Sprite jumpscareSprite;  // Lista de sprites que cambiarán en bucle
     private bool tutorialDone = false;
     public GameObject tutorial;
     private SpriteRenderer imgRenderer;  // Referencia al SpriteRenderer de la piedra
@@ -16,17 +19,20 @@ public class GlassManager : MonoBehaviour
     public Transform spawnPoint; // Punto donde aparece el prefab (arrástralo en el editor)
     private RockToMouse piedraController; // Referencia al controlador de la piedra
     private int golpes = 0;
+    private bool jumpsCareOn = false;
     [SerializeField] private List<GameObject> puntosValidos; // Lista de objetos válidos (asignar en Inspector)
     public GameObject sonido; // Prefab que se spawnea con la animación
     public GameObject sonidoFinal; // Prefab que se spawnea con la animación
+    public GameObject sonidoZusto; // Prefab que se spawnea con la animación
     private AudioManagerGlass sonidoFinalController; // Referencia al controlador de la piedra
+    private AudioManagerGlass sonidoZustoController; // Referencia al controlador de la piedra
 
-
-
+    private bool countImageExecuted = false;  // Bandera para asegurar que CountImage solo se ejecute una vez
 
     void Start()
     {
         sonidoFinalController = sonidoFinal.GetComponent<AudioManagerGlass>();
+        sonidoZustoController = sonidoZusto.GetComponent<AudioManagerGlass>();
 
         StartCoroutine(StartScene());
         imgRenderer = imagen.GetComponent<SpriteRenderer>();
@@ -68,6 +74,7 @@ public class GlassManager : MonoBehaviour
             StartCoroutine(ManagePoints());
         }
     }
+
     IEnumerator ManagePoints()
     {
         // Espera hasta que el jugador presione Espacio o el número de golpes llegue a 7
@@ -82,7 +89,6 @@ public class GlassManager : MonoBehaviour
             // Activar el siguiente punto en la lista
             if (golpes < puntosValidos.Count - 1)
             {
-
                 puntosValidos[golpes + 1].SetActive(true);
             }
 
@@ -90,6 +96,22 @@ public class GlassManager : MonoBehaviour
         }
         puntosValidos[6].SetActive(false);
         sonidoFinalController.setPlaySound(true);
+        StartCoroutine(JumpScare());
+    }
+
+    IEnumerator JumpScare()
+    {
+        yield return new WaitForSeconds(2f);  // Espera un tiempo antes de activar la piedra
+        sonidoZustoController.setPlaySound(true);
+        jumpsCareOn = true;
+        yield return new WaitForSeconds(2f);  // Espera un tiempo antes de activar la piedra
+    }
+
+
+    IEnumerator Waittiririririririr()
+    {
+        yield return new WaitForSeconds(2f);  // Espera un tiempo antes de activar la piedra
+        SceneManager.LoadScene(5);
 
     }
 
@@ -101,9 +123,17 @@ public class GlassManager : MonoBehaviour
             Debug.Log($"Golpes actuales: {golpes}");
 
             // Cambiar el sprite según el número de golpes
-            if (golpes >= 0 && golpes < listaDeSprites.Count)
+            if (jumpsCareOn)
             {
-                imgRenderer.sprite = listaDeSprites[golpes];
+                imgRenderer.sprite = jumpscareSprite;
+                StartCoroutine(Waittiririririririr());
+            }
+            else
+            {
+                if (golpes >= 0 && golpes < listaDeSprites.Count)
+                {
+                    imgRenderer.sprite = listaDeSprites[golpes];
+                }
             }
         }
     }
