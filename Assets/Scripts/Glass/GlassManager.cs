@@ -28,8 +28,8 @@ public class GlassManager : MonoBehaviour
     {
         sonidoFinalController = sonidoFinal.GetComponent<AudioManagerGlass>();
 
-        StartCoroutine(StartScene());
         imgRenderer = imagen.GetComponent<SpriteRenderer>();
+        StartCoroutine(StartScene());
 
         // Obtener el componente RockToMouse del objeto piedra
         if (piedra != null)
@@ -47,12 +47,12 @@ public class GlassManager : MonoBehaviour
         }
     }
 
-    IEnumerator StartScene()
+    IEnumerator StartScene()//Se llama desde Start() con StartCoroutine(StartScene())
     {
         // Espera hasta que el jugador presione Espacio
         while (!Input.GetKeyDown(KeyCode.Space))
         {
-            yield return null;  // Espera un frame antes de volver a verificar
+            yield return null;
         }
 
         // Se ejecuta una vez cuando se rompe el bucle (cuando se presiona Espacio)
@@ -62,7 +62,8 @@ public class GlassManager : MonoBehaviour
             startAnimDoor();
             tutorialDone = true;
 
-            yield return new WaitForSeconds(3.5f);  // Espera un tiempo antes de activar la piedra
+            yield return new WaitForSeconds(3.5f);  // Espera un tiempo antes de activar la piedra, no cambiar el tiempo
+            //aqui ahora activas todos los objetos que hacen que tu juego funcione.
             piedra.SetActive(true);
             sonido.SetActive(true);
             StartCoroutine(ManagePoints());

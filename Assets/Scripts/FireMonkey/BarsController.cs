@@ -99,8 +99,6 @@ public class BarsController : MonoBehaviour
 
     IEnumerator AnimVictoria()
     {
-        yield return new WaitForSeconds(0.1f);  // Esperar 0.3 segundos antes de cambiar de nuevo
-        audioRock.SetActive(false);
         for (int i = 0; i < 18; i++)  // Cambiar tres veces
         {
             indiceSprite = (indiceSprite + 1) % listaDeSprites.Count;  // Mover al siguiente sprite en la lista de manera cíclica
