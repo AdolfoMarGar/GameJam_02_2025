@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource teclaCorrecta;
+    public AudioClip teclaCorrecta;
 
     public void PlayTeclaCorrecta()
     {
-        teclaCorrecta.Play();
+        AudioSource audio = GetComponent<AudioSource>();
+        audio.clip = teclaCorrecta;
+        audio.Play();
     }
 }

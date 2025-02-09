@@ -157,7 +157,7 @@ public class MalabarGameManager : MonoBehaviour{
     private void CorrectKey(int index)
     {   
         //Debug.Log("¡Correcto!");
-        //AudioManager.PlayTeclaCorrecta();
+        AudioManager.PlayTeclaCorrecta();
         if (index >= 0 && index < actualCombination.Count)
         {
             char letter = actualCombination[index];
