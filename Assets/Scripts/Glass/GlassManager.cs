@@ -111,7 +111,7 @@ public class GlassManager : MonoBehaviour
 
     IEnumerator Waittiririririririr()
     {
-        yield return new WaitForSeconds(2f);  // Espera un tiempo antes de activar la piedra
+        yield return new WaitForSeconds(3.5f);  // Espera un tiempo antes de activar la piedra
         SceneManager.LoadScene(5);
 
     }

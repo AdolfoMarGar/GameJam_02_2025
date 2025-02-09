@@ -338,7 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teclaCorrecta: {fileID: 8300000, guid: a4a21a114041c7b478287513dd78b0e1, type: 3}
   teclaIncorrecta: {fileID: 8300000, guid: cde3fb924bb343449bde40dd39296196, type: 3}
-  music: {fileID: 0}
+  music: {fileID: 8300000, guid: 4d30949109ba9b449806ebb0420b4da1, type: 3}
 --- !u!4 &407129038
 Transform:
   m_ObjectHideFlags: 0
