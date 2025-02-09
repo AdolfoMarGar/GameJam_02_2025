@@ -54,6 +54,7 @@ public class MalabarGameManager : MonoBehaviour
                                                     //aqui ahora activas todos los objetos que hacen que tu juego funcione.
             charGenerator();
             tutorialDone = true;
+            AudioManager.PlayMusic();
 
 
         }
@@ -187,6 +188,7 @@ public class MalabarGameManager : MonoBehaviour
         actualWrongGuesses++;
         totalWrongGuesses++;
         actualCorrectGuesses = 0;
+        AudioManager.PlayTeclaIncorrecta();
         StartCoroutine(Animation());
         StartCoroutine(CameraShake.Shake(0.5f, 0.1f));
         /*
