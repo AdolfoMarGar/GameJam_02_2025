@@ -3,11 +3,16 @@ using UnityEngine;
 public class DrumHit : MonoBehaviour
 {
     public KeyCode hitKey; // Tecla asignada (ej: A, S, D, F)
-    public int score = 0;
-    public int misses = 0;
+    [SerializeField] private int debugTotalScore; // Variable para mostrar en el Inspector
+    [SerializeField] private int debugTotalMisses; // Variable para mostrar en el Inspector
+    public static int totalScore = 0; // Variable global para los hits
+    public static int totalMisses = 0; // Variable global para los misses
 
     void Update()
     {
+        debugTotalScore = totalScore; // Sincronizar con la variable estática
+        debugTotalMisses = totalMisses; // Sincronizar con la variable estática
+
         if (Input.GetKeyDown(hitKey))
         {
             CheckForHit();
@@ -21,11 +26,13 @@ public class DrumHit : MonoBehaviour
         {
             if (note.CompareTag("Note"))
             {
-                score++;
+                totalScore++;
+                debugTotalScore = totalScore;
                 Destroy(note.gameObject);
                 return;
             }
         }
-        misses++;
+        totalMisses++;
+        debugTotalMisses = totalMisses;
     }
 }

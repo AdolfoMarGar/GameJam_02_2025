@@ -22,7 +22,7 @@ public class AudioSequence : MonoBehaviour
         audioSource.Play();
 
         // Esperar hasta que falten unos pocos milisegundos para que termine el primer audio
-        yield return new WaitForSeconds(firstClip.length - 0.5f);
+        yield return new WaitForSeconds(firstClip.length - 0.00f);
 
         // Iniciar el segundo audio sin interrupciones
         audioSource.clip = secondClip;

@@ -10,7 +10,7 @@ public class NoteSpawner : MonoBehaviour
     public AudioSource musicSource;
     public GameObject notePrefab;
     public Transform[] spawnPoints; // 4 posiciones para los tambores
-    public TextAsset midiFile; // Ahora puedes arrastrar el archivo MIDI en el editor
+    public TextAsset midiFile; // Arrastra el archivo MIDI aquí en el Inspector
     public float noteSpeed = 5f;
     public float preSpawnTime = 1f; // Tiempo antes de que la nota deba ser golpeada
 
