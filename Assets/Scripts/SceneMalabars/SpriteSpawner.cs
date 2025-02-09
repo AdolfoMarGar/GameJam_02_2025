@@ -3,18 +3,24 @@ using UnityEngine;
 
 public class SpriteSpawner : MonoBehaviour
 {
-    public Sprite[] letterSprites = new Sprite[26]; // Sprites originales de A-Z
-    public Sprite[] correctLetterSprites = new Sprite[26]; // Sprites al acertar
-    public RuntimeAnimatorController keyPressAnimator; // 🎥 Controlador de animación
+    public Sprite[] letterSprites = new Sprite[26];
+    public Sprite[] correctLetterSprites = new Sprite[26];
 
     private Dictionary<char, Sprite> spriteDictionary;
     private Dictionary<char, Sprite> correctSpriteDictionary;
-    private Dictionary<char, GameObject> spawnedObjects = new Dictionary<char, GameObject>();
+    private Dictionary<char, GameObject> spawnedObjects;
+    private List<char> lastLetters = new List<char>();
 
     private void Awake()
     {
+        InitializeDictionaries();
+    }
+
+    private void InitializeDictionaries()
+    {
         spriteDictionary = new Dictionary<char, Sprite>();
         correctSpriteDictionary = new Dictionary<char, Sprite>();
+        spawnedObjects = new Dictionary<char, GameObject>();
 
         for (int i = 0; i < 26; i++)
         {
@@ -24,74 +30,67 @@ public class SpriteSpawner : MonoBehaviour
         }
     }
 
-    public void LoadSprite(List<char> combination)
-    {
-        ClearAllSprites();
+    public void LoadSprites(List<char> letters){
 
-        for (int i = 0; i < combination.Count; i++)
+        //Debug.Log("LoadSpritesInici -> " + string.Join(", ", lastLetters));
+
+        ClearSprites(lastLetters);
+        
+        lastLetters = lastLetters = new List<char>(letters);
+
+        foreach (char letter in letters)
         {
-            char letter = combination[i];
-            GameObject newObject = new GameObject("Sprite_" + letter);
-            SpriteRenderer spriteRenderer = newObject.AddComponent<SpriteRenderer>();
+            GameObject letterSprite = new GameObject("Letter" + letter);
 
-            if (spriteDictionary.TryGetValue(letter, out Sprite assignedSprite))
-            {
-                spriteRenderer.sprite = assignedSprite;
-            }
-            else
-            {
-                Debug.LogWarning("Letra sin sprite asignado: " + letter);
-            }
+            SpriteRenderer renderer = letterSprite.AddComponent<SpriteRenderer>();
 
-            // Agregar Animator si hay animación
-            Animator animator = newObject.AddComponent<Animator>();
-            animator.runtimeAnimatorController = keyPressAnimator; // 🎥 Asigna el Animator
+            renderer.sprite = spriteDictionary[letter];
+            
+            letterSprite.transform.position = new Vector3(-3.37f, 1.28f - (1.1f * (float)spawnedObjects.Count), 10f);
 
-            newObject.transform.position = new Vector3(2.0f, 3.0f - (i), 0f);
-            newObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            letterSprite.transform.localScale = new Vector3(0.3f, 0.3f, 0f);
 
-            spawnedObjects[letter] = newObject;
+            renderer.sortingOrder = 5;
+
+            spawnedObjects[letter] = letterSprite;
         }
+        
+        //Debug.Log("LoadSpritesFinal -> " + string.Join(", ", lastLetters));
     }
 
-    // Método para activar la animación al presionar una tecla
-    public void PlayKeyPressAnimation(char letter)
-{
-    if (spawnedObjects.TryGetValue(letter, out GameObject obj))
+    public void ClearSprites(List<char> letters)
     {
-        Animator animator = obj.GetComponent<Animator>();
-        if (animator != null)
-        {
-            animator.ResetTrigger("Pressed"); // Resetea cualquier activación anterior
-            animator.SetTrigger("Pressed");   // Activa la animación correctamente
-        }
-    }
-}
 
-
-    public void ClearAllSprites()
-    {
-        foreach (var obj in spawnedObjects.Values)
+        //Debug.Log("ClearSprites -> " + string.Join(", ", letters));
+        foreach (char letter in letters)
         {
-            Destroy(obj);
+            if (spawnedObjects.TryGetValue(letter, out GameObject obj) && obj != null)
+            {
+                
+                //Debug.Log("Destroying letter: " + spawnedObjects[letter].name);
+                Destroy(obj);
+            }
         }
         spawnedObjects.Clear();
+
     }
 
+    
     public void ReplaceSpriteOnCorrect(char letter)
     {
-        if (spawnedObjects.TryGetValue(letter, out GameObject obj))
+        if (spawnedObjects.TryGetValue(letter, out GameObject obj) && obj != null)
         {
             SpriteRenderer spriteRenderer = obj.GetComponent<SpriteRenderer>();
-
             if (correctSpriteDictionary.TryGetValue(letter, out Sprite newSprite))
             {
                 spriteRenderer.sprite = newSprite;
             }
             else
             {
-                Debug.LogWarning("No hay sprite de reemplazo para la letra: " + letter);
+                //.LogWarning("No hay sprite de reemplazo para la letra: " + letter);
             }
         }
     }
+    
 }
+ 
