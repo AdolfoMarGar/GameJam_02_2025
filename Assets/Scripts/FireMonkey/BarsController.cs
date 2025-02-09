@@ -69,7 +69,7 @@ public class BarsController : MonoBehaviour
     IEnumerator AnimVictoria()
     {
 
-        for (int i = 0; i < 24; i++)  // Cambiar tres veces
+        for (int i = 0; i < 18; i++)  // Cambiar tres veces
         {
             indiceSprite = (indiceSprite + 1) % listaDeSprites.Count;  // Mover al siguiente sprite en la lista de manera cíclica
             spriteRenderer.sprite = listaDeSprites[indiceSprite];  // Asignar el nuevo sprite
