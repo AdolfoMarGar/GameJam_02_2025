@@ -18,6 +18,10 @@ public class GameStarter : MonoBehaviour
     public float secondPrefabDelay = 5f; // Tiempo de espera antes de activar el segundo prefab
     public float sceneChangeDelay = 3f; // Tiempo de espera antes de cambiar de escena
 
+    public Canvas canvasToActivate; // Referencia al Canvas que se activará
+    public float canvasActivationDelay = 2f; // Tiempo después de la primera animación para activar el Canvas
+    public float canvasDeactivationDelay = 1f; // Tiempo antes de desactivar el Canvas
+
     private GameObject spawnedIntro; // Referencia al prefab instanciado
     private bool introStarted = false; // Control para evitar múltiples inicios
 
@@ -41,6 +45,12 @@ public class GameStarter : MonoBehaviour
         if (scriptToDisable != null)
         {
             scriptToDisable.enabled = false;
+        }
+
+        // Desactiva el Canvas al inicio si está asignado
+        if (canvasToActivate != null)
+        {
+            canvasToActivate.gameObject.SetActive(false); // Asegúrate de que está inicialmente desactivado
         }
     }
 
@@ -86,9 +96,30 @@ public class GameStarter : MonoBehaviour
             musicSource.Play();
         }
 
+        // Espera el tiempo determinado antes de activar el Canvas
+        yield return new WaitForSeconds(canvasActivationDelay);
+        
+        // Activa el Canvas
+        if (canvasToActivate != null)
+        {
+            canvasToActivate.gameObject.SetActive(true); // Ahora se activa después del retraso
+            Debug.Log("Canvas Activado");
+        }
+
+        // Espera el tiempo determinado antes de desactivar el Canvas
+        yield return new WaitForSeconds(canvasDeactivationDelay);
+        
+        // Desactiva el Canvas justo antes de la segunda animación de cierre
+        if (canvasToActivate != null)
+        {
+            canvasToActivate.gameObject.SetActive(false); // Desactivado antes de la segunda animación
+            Debug.Log("Canvas Desactivado");
+        }
+
         // Espera el tiempo determinado antes de activar el segundo prefab
         yield return new WaitForSeconds(secondPrefabDelay);
         
+        // Activar el segundo prefab y su animación
         if (secondPrefab != null && secondSpawnPoint != null)
         {
             GameObject spawnedSecond = Instantiate(secondPrefab, secondSpawnPoint.position, Quaternion.identity);
@@ -96,12 +127,13 @@ public class GameStarter : MonoBehaviour
             if (anim != null)
             {
                 anim.Play(0, 0, 0f); // Fuerza la animación del prefab
+                Debug.Log("Segundo Prefab Activado");
             }
         }
-        
+
         // Espera antes de cambiar de escena
         yield return new WaitForSeconds(sceneChangeDelay);
-        
+
         // Cambia a la escena con índice 3
         SceneManager.LoadScene(3);
     }
