@@ -105,8 +105,8 @@ public class BarsController : MonoBehaviour
 
         progressBarController.Reset();
         progressBar.SetActive(false);
-        yield return new WaitForSeconds(1f);  // Esperar 1 segundo antes de activar movingBar y scope
-        movingBar.SetActive(true);
         scope.SetActive(true);
+        yield return new WaitForSeconds(0.6f);  // Esperar 1 segundo antes de activar movingBar y scope
+        movingBar.SetActive(true);
     }
 }
