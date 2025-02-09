@@ -27,6 +27,7 @@ public class BarsController : MonoBehaviour
     private GameObject spawnedIntro; // Referencia al prefab instanciado
     public GameObject tutorial;
     private bool tutorialDone = false;
+    public GameObject audioRock;
     void Start()
     {
         StartCoroutine(StartScene());
@@ -55,6 +56,7 @@ public class BarsController : MonoBehaviour
 
             yield return new WaitForSeconds(3.5f);  // Espera un frame antes de volver a verificar
             progressBar.SetActive(true); // Asegurarse de que progressBar esté activo al principio
+            audioRock.SetActive(true);
 
 
         }
@@ -97,7 +99,8 @@ public class BarsController : MonoBehaviour
 
     IEnumerator AnimVictoria()
     {
-
+        yield return new WaitForSeconds(0.1f);  // Esperar 0.3 segundos antes de cambiar de nuevo
+        audioRock.SetActive(false);
         for (int i = 0; i < 18; i++)  // Cambiar tres veces
         {
             indiceSprite = (indiceSprite + 1) % listaDeSprites.Count;  // Mover al siguiente sprite en la lista de manera cíclica
