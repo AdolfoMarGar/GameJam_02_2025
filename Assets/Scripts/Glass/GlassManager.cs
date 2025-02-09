@@ -17,10 +17,17 @@ public class GlassManager : MonoBehaviour
     private RockToMouse piedraController; // Referencia al controlador de la piedra
     private int golpes = 0;
     [SerializeField] private List<GameObject> puntosValidos; // Lista de objetos válidos (asignar en Inspector)
+    public GameObject sonido; // Prefab que se spawnea con la animación
+    public GameObject sonidoFinal; // Prefab que se spawnea con la animación
+    private AudioManagerGlass sonidoFinalController; // Referencia al controlador de la piedra
+
+
 
 
     void Start()
     {
+        sonidoFinalController = sonidoFinal.GetComponent<AudioManagerGlass>();
+
         StartCoroutine(StartScene());
         imgRenderer = imagen.GetComponent<SpriteRenderer>();
 
@@ -57,6 +64,7 @@ public class GlassManager : MonoBehaviour
 
             yield return new WaitForSeconds(3.5f);  // Espera un tiempo antes de activar la piedra
             piedra.SetActive(true);
+            sonido.SetActive(true);
             StartCoroutine(ManagePoints());
         }
     }
@@ -81,6 +89,7 @@ public class GlassManager : MonoBehaviour
             yield return null;  // Espera un frame antes de volver a verificar
         }
         puntosValidos[6].SetActive(false);
+        sonidoFinalController.setPlaySound(true);
 
     }
 

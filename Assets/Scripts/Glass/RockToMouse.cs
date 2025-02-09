@@ -10,10 +10,16 @@ public class RockToMouse : MonoBehaviour
     private HashSet<GameObject> contactos = new HashSet<GameObject>(); // Almacena triggers en contacto
 
     [SerializeField] private List<GameObject> puntosValidos; // Lista de objetos válidos (asignar en Inspector)
+    public GameObject sonido; // Prefab que se spawnea con la animación
+    private AudioManagerGlass sonidoController; // Referencia al controlador de la piedra
+
+
 
     void Start()
     {
         cam = Camera.main;
+        sonidoController = sonido.GetComponent<AudioManagerGlass>();
+
         if (TryGetComponent<SpriteRenderer>(out SpriteRenderer spriteRenderer))
         {
             spriteSize = spriteRenderer.bounds.size; // Obtener el tamaño del sprite
@@ -41,6 +47,7 @@ public class RockToMouse : MonoBehaviour
                 if (puntosValidos.Contains(obj))
                 {
                     golpes++;
+                    sonidoController.setPlaySound(true);
                     Debug.Log($"Golpes: {golpes}");
                     break; // Evita sumar múltiples veces si hay más de un objeto en contacto
                 }
