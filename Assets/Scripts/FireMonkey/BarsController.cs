@@ -124,6 +124,7 @@ public class BarsController : MonoBehaviour
         yield return new WaitForSeconds(1f);  // Esperar 0.3 segundos antes de cambiar de nuevo
         spriteRenderer.sprite = startAgainSprite;  // Asignar el nuevo sprite
         progressBar.SetActive(true); // Reactivar la barra de progreso
+        progressBarController.Reset();
         cambioHecho = false; // Reiniciar el estado de cambio        
     }
 
@@ -135,7 +136,6 @@ public class BarsController : MonoBehaviour
         Debug.Log("A empezar de nuevo!!!!!!!!");
         yield return new WaitForSeconds(0.1f);
 
-        progressBarController.Reset();
         progressBar.SetActive(false);
         scope.SetActive(true);
         yield return new WaitForSeconds(0.6f);  // Esperar 1 segundo antes de activar movingBar y scope

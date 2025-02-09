@@ -21,8 +21,10 @@ public class ProgressBarController : MonoBehaviour
     {
         disminuirEscala = true;
         Vector3 resetEscala = transform.localScale;
-        resetEscala.y = 0.082f;
+        resetEscala.y = 0.09f;
         transform.localScale = resetEscala;
+        StartCoroutine(DisminuirEscalaCadaIntervalo());
+
     }
     void Update()
     {
@@ -59,6 +61,7 @@ public class ProgressBarController : MonoBehaviour
             spriteRenderer.sprite = listaDeSprites[indiceSprite];
         }
     }
+
 
     IEnumerator DisminuirEscalaCadaIntervalo()
     {

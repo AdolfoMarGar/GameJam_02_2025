@@ -27,7 +27,6 @@ public class GlassManager : MonoBehaviour
     private AudioManagerGlass sonidoFinalController; // Referencia al controlador de la piedra
     private AudioManagerGlass sonidoZustoController; // Referencia al controlador de la piedra
 
-    private bool countImageExecuted = false;  // Bandera para asegurar que CountImage solo se ejecute una vez
 
     void Start()
     {
