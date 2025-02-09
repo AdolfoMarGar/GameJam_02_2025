@@ -21,12 +21,12 @@ public class ProgressBarController : MonoBehaviour
     {
         disminuirEscala = true;
         Vector3 resetEscala = transform.localScale;
-        resetEscala.y = 0.1f;
+        resetEscala.y = 0.082f;
         transform.localScale = resetEscala;
     }
     void Update()
     {
-        if (transform.localScale.y >= 2.55f)
+        if (transform.localScale.y >= 2.1f)
         {
             disminuirEscala = false;
         }
@@ -47,7 +47,7 @@ public class ProgressBarController : MonoBehaviour
     void IncrementarEscala()
     {
         Vector3 nuevaEscala = transform.localScale;
-        nuevaEscala.y += 0.1f;
+        nuevaEscala.y += 0.082f;
         transform.localScale = nuevaEscala;
     }
 
@@ -68,10 +68,10 @@ public class ProgressBarController : MonoBehaviour
                 break;
             yield return new WaitForSeconds(0.1f);
 
-            if (transform.localScale.y > 0.55f)
+            if (transform.localScale.y > 0.082f)
             {
                 Vector3 nuevaEscala = transform.localScale;
-                nuevaEscala.y -= 0.01f;
+                nuevaEscala.y -= 0.0082f;
                 transform.localScale = nuevaEscala;
             }
         }

@@ -11,15 +11,26 @@ public class BarsController : MonoBehaviour
     public GameObject progressBar;
     public GameObject scope;
     public GameObject movingBar;
+    public GameObject baseBar;
     private bool cambioHecho = false;
     private SpriteRenderer spriteRenderer;
     public GameObject bg;
     public Sprite errorSprite;
     public Sprite startAgainSprite;
-
+    public List<Sprite> listaDeSprites;  // Lista de sprites que cambiarán en bucle
+    private int indiceSprite = 0;
+    private bool animFinal = false;
+    public GameObject introPrefab; // Prefab que se spawnea con la animación
+    public GameObject outroPrefab; // Prefab que se spawnea con la animación
+    public Transform spawnPoint; // Punto donde aparece el prefab (arrástralo en el editor)
+    private GameObject spawnedIntro; // Referencia al prefab instanciado
 
     void Start()
     {
+        if (introPrefab != null && spawnPoint != null)
+        {
+            spawnedIntro = Instantiate(introPrefab, spawnPoint.position, Quaternion.identity);
+        }
         spriteRenderer = bg.GetComponent<SpriteRenderer>(); // Obtener el SpriteRenderer del otro objeto
         progressBar.SetActive(true); // Asegurarse de que progressBar esté activo al principio
     }
@@ -38,6 +49,13 @@ public class BarsController : MonoBehaviour
         {
             movingBar.SetActive(false);
             scope.SetActive(false);
+            baseBar.SetActive(false);
+            if (animFinal == false)
+            {
+                StartCoroutine(AnimVictoria());
+                animFinal = true;
+
+            }
         }
         // Si ocurre un error, activar el reset
         if (movingBarController.GetErrores() == true) // Asumiendo que GetErrores devuelve un entero
@@ -46,6 +64,22 @@ public class BarsController : MonoBehaviour
 
             StartCoroutine(Reset());
         }
+    }
+
+    IEnumerator AnimVictoria()
+    {
+
+        for (int i = 0; i < 24; i++)  // Cambiar tres veces
+        {
+            indiceSprite = (indiceSprite + 1) % listaDeSprites.Count;  // Mover al siguiente sprite en la lista de manera cíclica
+            spriteRenderer.sprite = listaDeSprites[indiceSprite];  // Asignar el nuevo sprite
+            yield return new WaitForSeconds(0.3f);  // Esperar 0.3 segundos antes de cambiar de nuevo
+        }
+        if (outroPrefab != null && spawnPoint != null)
+        {
+            spawnedIntro = Instantiate(outroPrefab, spawnPoint.position, Quaternion.identity);
+        }
+
     }
 
     // Corrutina para el reset

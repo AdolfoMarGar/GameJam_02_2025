@@ -11,7 +11,7 @@ public class MovingBarController : MonoBehaviour
     public int aciertos = 0;
     private bool errores = false;
     public List<Sprite> listaDeSprites;  // Lista de sprites que cambiarán en bucle
-    private int indiceSprite = 3;  // Para hacer el seguimiento del sprite actual
+    private int indiceSprite = 0;  // Para hacer el seguimiento del sprite actual
     private SpriteRenderer spriteRenderer;
     public GameObject bg; // Objeto al cual se le cambiará el sprite (así lo asignas en el Inspector)
 
